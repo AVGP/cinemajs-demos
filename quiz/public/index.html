@@ -1,0 +1,93 @@
+<!doctype html>
+<html>
+<head>
+  <title>CinemaJS - Quiz demo</title>
+  <style>
+  body {
+    padding: 1em;
+    font-family: Helvetica, Arial, sans-serif;
+  }
+
+  h1 { font-size: 5em; }
+  h2 {
+    font-size: 3em;
+  }
+
+  ol { padding: 0; }
+  li { display: block; }
+  li a {
+    font-size: 1.5em;
+    padding: 0.25em 0.5em;
+    margin-bottom: 1em;
+    display: block;
+    border: 1px solid #cca;
+    background: #ffc;
+    cursor: pointer;
+    color: black;
+  }
+
+  li a.selected {
+    background: #cff;
+    border-color: #8ff;
+  }
+  </style>
+</head>
+<body>
+  <h1>CinemaJS Quiz</h1>
+  <p>Your score: <span id="score">0</span></p>
+  <h2>Question: <span id="question"></span></h2>
+  <ol type="A" id="answers">
+    <li><a id="a1"></a></li>
+    <li><a id="a2"></a></li>
+    <li><a id="a3"></a></li>
+    <li><a id="a4"></a></li>
+  </ol>
+  <script>
+    var playerName = window.prompt('Please enter your player name', '')
+
+    if(playerName) run()
+    else alert('You are not participating, because you did not enter a player name')
+
+    var question = document.getElementById('question'), hasAnswered = false
+
+    function run() {
+      var ws = new WebSocket(window.location.href.replace(window.location.protocol, 'ws:'))
+      ws.onopen = function() {
+        ws.send(JSON.stringify({
+          type: 'JOIN',
+          name: playerName
+        }))
+
+        document.getElementById('answers').addEventListener('click', function(evt) {
+          if(hasAnswered) return
+
+          if(evt.target.tagName.toLowerCase() === 'a') {
+            evt.target.className = 'selected'
+            ws.send(JSON.stringify({
+              type: 'ANSWER',
+              answer: Number(evt.target.id.slice(1)) - 1
+            }))
+            hasAnswered = true
+          }
+        })
+
+      }
+      ws.onmessage = function(evt) {
+        var msg = JSON.parse(evt.data)
+        console.log(msg)
+        if(msg.type === 'QUESTION') {
+          hasAnswered = false
+          var prevAnswer = document.querySelector('.selected')
+          if(prevAnswer) prevAnswer.className = ''
+          question.innerHTML = msg.question
+          for(var i=0; i<msg.answers.length; i++) {
+            document.querySelector('#a' + (i+1)).innerHTML = msg.answers[i]
+          }
+        } else if(msg.type === 'SCORE') {
+          document.getElementById('score').textContent = msg.score
+        }
+      }
+    }
+  </script>
+</body>
+</html>

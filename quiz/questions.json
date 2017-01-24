@@ -1,0 +1,27 @@
+[
+  {
+    "question": "What is <code>[] + []</code> in JavaScript?",
+    "answers": [ "[]", "null", "&quot;&quot;", "NaN" ],
+    "correct": 2
+  },
+  {
+    "question": "How long did it take Brendan Eich to create JavaScript?",
+    "answers": [ "7 days", "10 days", "3 days", "14 days" ],
+    "correct": 1
+  },
+  {
+    "question": "What is <code>{} + []</code> in JavaScript?",
+    "answers": [ "0", "[]", "{}", "NaN" ],
+    "correct": 0
+  },
+  {
+    "question": "What was the original name for JavaScript?",
+    "answers": [ "LiveScript", "ECMAScript", "JScript", "Mocha" ],
+    "correct": 3
+  },
+  {
+    "question": "What is the output of <code>console.log(typeof null)</code> in JavaScript?",
+    "answers": [ "Null", "Number", "Object", "undefined" ],
+    "correct": 2
+  }
+]

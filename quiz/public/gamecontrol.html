@@ -1,0 +1,86 @@
+<!doctype html>
+<html>
+<head>
+  <title>CinemaJS - Quiz demo</title>
+  <style>
+  body {
+    padding: 1em;
+    font-family: Helvetica, Arial, sans-serif;
+  }
+
+  h1 { font-size: 5em; }
+  h2 {
+    font-size: 3em;
+  }
+
+  ol { padding: 0; }
+  #answers li { display: block; }
+  li a {
+    font-size: 1.5em;
+    padding: 0.25em 0.5em;
+    margin-bottom: 1em;
+    display: block;
+    border: 1px solid #cca;
+    background: #ffc;
+    cursor: pointer;
+  }
+  #ranking {
+    padding-left: 4em;
+  }
+  #ranking li {
+    font-size: 2em;
+  }
+  </style>
+</head>
+<body>
+  <h1>CinemaJS Quiz</h1>
+  <div id="content">
+    <h2>Question: <span id="question"></span></h2>
+    <ol type="A" id="answers">
+      <li><a id="a1"></a></li>
+      <li><a id="a2"></a></li>
+      <li><a id="a3"></a></li>
+      <li><a id="a4"></a></li>
+    </ol>
+    <button id="next">Next Question</button>
+    <button id="end">End game</button>
+  </div>
+  <template>
+    <h2>Top 10:</h2>
+    <ol id="ranking">
+    </ol>
+  </template>
+  <script>
+    var ws = new WebSocket(window.location.href.replace(window.location.protocol, 'ws:'))
+
+    ws.onmessage = function(evt) {
+      var msg = JSON.parse(evt.data)
+      if(msg.type === 'QUESTION') {
+        document.getElementById('question').innerHTML = msg.question
+        for(var i=0; i<msg.answers.length; i++) {
+          document.querySelector('#a' + (i+1)).innerHTML = msg.answers[i]
+        }
+      } else if(msg.type === 'RANKING') {
+        var content = document.getElementById('content')
+        content.innerHTML = ''
+        content.appendChild(document.importNode(document.querySelector('template').content, true))
+        var list = document.querySelector('ol')
+        for(var rank of msg.ranking) {
+          var li = document.createElement('li')
+          li.textContent = rank.name + '(' + rank.score + ')'
+          list.appendChild(li)
+        }
+      }
+    }
+
+    document.getElementById('next').addEventListener('click', function() {
+      ws.send(JSON.stringify({type: 'ADMIN.NEXT'}))
+    })
+
+    document.getElementById('end').addEventListener('click', function() {
+      ws.send(JSON.stringify({type: 'ADMIN.END'}))
+    })
+
+  </script>
+</body>
+</html>
