@@ -44,6 +44,7 @@
     </ol>
     <button id="next">Next Question</button>
     <button id="end">End game</button>
+    <button id="reset">Reset game</button>
   </div>
   <template>
     <h2>Top 10:</h2>
@@ -79,6 +80,10 @@
 
     document.getElementById('end').addEventListener('click', function() {
       ws.send(JSON.stringify({type: 'ADMIN.END'}))
+    })
+
+    document.getElementById('reset').addEventListener('click', function() {
+      ws.send(JSON.stringify({type: 'ADMIN.RESET'}))
     })
 
   </script>

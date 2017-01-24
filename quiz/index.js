@@ -61,6 +61,10 @@ wss.on('connection', function connection(ws) {
         type: 'RANKING',
         ranking: ranking.slice(0, 10)
       }))
+    } else if(msg.type === 'ADMIN.RESET') {
+      scores = {}
+      currentQuestionNumber = 0
+      currentQuestion = QUESTIONS[0]
     }
   })
 
