@@ -1,0 +1,60 @@
+<!doctype html>
+<html>
+<head>
+  <title>CinemaJS - Dogfight</title>
+  <style>
+  body {
+    font-family: Helvetica, Arial, sans-serif;
+    padding: 0;
+    margin: 0;
+    width: 100%;
+    height: 100%;
+    height: 100vh;
+  }
+
+  canvas {
+    padding: 0;
+    margin: 0;
+    width: 100%;
+    height: 100%;
+    height: 100vh;
+  }
+
+  #content { display: none; }
+
+  #overlay {
+    position: absolute;
+    z-index: 100;
+    top: 5px;
+    left: 5px;
+    width: 20em;
+    background: rgba(0, 0, 0, 0.8);
+    color: white;
+  }
+  </style>
+</head>
+<body>
+  <div id="loading">Loading...</div>
+  <div id="content">
+    <div id="overlay">
+      <button>End</button>
+      <ol>
+        <li>Lorem ipsum</li>
+        <li>Lorem ipsum</li>
+        <li>Lorem ipsum</li>
+        <li>Lorem ipsum</li>
+        <li>Lorem ipsum</li>
+        <li>Lorem ipsum</li>
+        <li>Lorem ipsum</li>
+        <li>Lorem ipsum</li>
+        <li>Lorem ipsum</li>
+        <li>Lorem ipsum</li>
+      </ol>
+    </div>
+  </div>
+  <script src="three.min.js"></script>
+  <script src="OBJLoader.js"></script>
+  <script src="MTLLoader.js"></script>
+  <script src="gamecontrol.js"></script>
+</body>
+</html>
